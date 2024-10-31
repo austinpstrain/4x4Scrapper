@@ -304,7 +304,7 @@ make_column_frame.grid(row=0, column=0, sticky="nw")
 # Replace model_column_frame with a ScrollableFrame with specified narrower width
 model_scrollable_frame = ScrollableFrame(selection_frame, height=400, width=195)
 model_scrollable_frame.grid(row=0, column=1, sticky="nw")
-
+ 
 # Replace trim_column_frame with a ScrollableFrame with specified narrower width
 trim_scrollable_frame = ScrollableFrame(selection_frame, height=400, width=195)
 trim_scrollable_frame.grid(row=0, column=2, sticky="nw")

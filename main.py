@@ -14,11 +14,11 @@ class ScrollableFrame(ttk.Frame):
     """
     A scrollable frame that can be used to contain other widgets.
     """
-    def __init__(self, container, height=400, *args, **kwargs):
+    def __init__(self, container, height=400, width=None, *args, **kwargs):
         super().__init__(container, *args, **kwargs)
 
-        # Create a Canvas widget with specified height
-        canvas = tk.Canvas(self, borderwidth=0, background="#f0f0f0", height=height)
+        # Create a Canvas widget with specified height and optional width
+        canvas = tk.Canvas(self, borderwidth=0, background="#f0f0f0", height=height, width=width)
         # Create a vertical Scrollbar linked to the Canvas
         scrollbar = ttk.Scrollbar(self, orient="vertical", command=canvas.yview)
         # Create an internal Frame to hold the scrollable content
@@ -39,7 +39,7 @@ class ScrollableFrame(ttk.Frame):
         canvas.configure(yscrollcommand=scrollbar.set)
 
         # Pack the Canvas and Scrollbar
-        canvas.pack(side="left")
+        canvas.pack(side="left", fill="both", expand=True)
         scrollbar.pack(side="right", fill="y")
 
 def updateMaxYears(event):
@@ -99,8 +99,9 @@ def add_model_listbox(make):
     label = tk.Label(frame, text=f"Models for {make}:")
     label.pack(side='top', anchor='w', padx=(0, 10), pady=(0, 5))
 
-    listbox = tk.Listbox(frame, selectmode=tk.MULTIPLE, exportselection=False, height=4)
-    listbox.pack(side='left', expand=True)
+    # Listbox for Models with narrower width
+    listbox = tk.Listbox(frame, selectmode=tk.MULTIPLE, exportselection=False, height=4, width=20)
+    listbox.pack(side='left', fill='x', expand=True)
 
     # Scrollbar for the Model Listbox
     scrollbar = tk.Scrollbar(frame, orient=tk.VERTICAL, command=listbox.yview)
@@ -180,8 +181,8 @@ def add_trim_listbox(make, model):
     label = tk.Label(frame, text=f"Trims for {model}:")
     label.pack(side='top', anchor='w', padx=(0, 10), pady=(0, 5))
 
-    # Listbox for Trims with increased height and narrower width
-    listbox = tk.Listbox(frame, selectmode=tk.MULTIPLE, exportselection=False, height=4)
+    # Listbox for Trims with narrower width
+    listbox = tk.Listbox(frame, selectmode=tk.MULTIPLE, exportselection=False, height=4, width=20)
     listbox.pack(side='left', fill='x', expand=True)
 
     # Scrollbar for the Trim Listbox
@@ -262,7 +263,7 @@ def performSearch():
 # Create the main application window
 root = tk.Tk()
 root.title("4x4 Web Scraper")
-root.geometry("1500x800")  # Increased width to accommodate the search options frame
+root.geometry("1400x800")  # Adjusted width to accommodate the search options frame
 
 # Define variables
 radius_var = tk.StringVar()
@@ -291,21 +292,21 @@ main_frame.grid_columnconfigure(1, weight=2)  # Options frame gets less space
 # Vehicle Selection Frame - Three Columns: Makes, Models, Trims
 # --------------------------------------------------------------------------------
 
-# Configure selection_frame to have three columns
-selection_frame.grid_columnconfigure(0, weight=1)
-selection_frame.grid_columnconfigure(1, weight=1)
-selection_frame.grid_columnconfigure(2, weight=1)
+# Configure selection_frame to have three columns with adjusted weights
+selection_frame.grid_columnconfigure(0, weight=2)  # Makes column gets more space
+selection_frame.grid_columnconfigure(1, weight=1)  # Models column narrower
+selection_frame.grid_columnconfigure(2, weight=1)  # Trims column narrower
 
 # Create three separate frames for Makes, Models, and Trims columns
-make_column_frame = ttk.Frame(selection_frame)  # Set a narrower width
+make_column_frame = ttk.Frame(selection_frame)
 make_column_frame.grid(row=0, column=0, sticky="nw")
 
-# Replace model_column_frame with a ScrollableFrame with increased height and narrower width
-model_scrollable_frame = ScrollableFrame(selection_frame, height=400)
+# Replace model_column_frame with a ScrollableFrame with specified narrower width
+model_scrollable_frame = ScrollableFrame(selection_frame, height=400, width=195)
 model_scrollable_frame.grid(row=0, column=1, sticky="nw")
 
-# Replace trim_column_frame with a ScrollableFrame with increased height and narrower width
-trim_scrollable_frame = ScrollableFrame(selection_frame, height=400)
+# Replace trim_column_frame with a ScrollableFrame with specified narrower width
+trim_scrollable_frame = ScrollableFrame(selection_frame, height=400, width=195)
 trim_scrollable_frame.grid(row=0, column=2, sticky="nw")
 
 # Assign the inner frames to variables for easy access
@@ -321,7 +322,7 @@ make_label = tk.Label(make_column_frame, text="Make:")
 make_label.pack(anchor='w', padx=5, pady=(0, 5))
 
 # Make Listbox with narrower width
-make_listbox = tk.Listbox(make_column_frame, selectmode=tk.MULTIPLE, exportselection=False, width=20)
+make_listbox = tk.Listbox(make_column_frame, selectmode=tk.MULTIPLE, exportselection=False, width=25)
 make_listbox.pack(fill='both', expand=True, padx=5, pady=(0, 5))
 
 # Populate Make Listbox

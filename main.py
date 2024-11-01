@@ -4,6 +4,7 @@ from bs4 import BeautifulSoup
 from Models.input_makes_models_trims import input_makes_models_trims
 from Models.options import Radius, Mileage, Years
 from Scrappers.AutoTrader import scrapeAutoTrader
+from tkinter import messagebox
 import pdb
 
 # Dictionaries to keep track of Model and Trim Listboxes
@@ -46,7 +47,7 @@ def updateMaxYears(event):
     min_year = min_year_var.get()
     if min_year:
         # Filter max years to be greater than or equal to min_year
-        filtered_max_years = [year for year in Years if year >= int(min_year)]
+        filtered_max_years = [year for year in Years if int(year) >= int(min_year)]
         max_year_combobox['values'] = [''] + filtered_max_years
         # If current max_year is less than min_year, reset it
         current_max = max_year_var.get()
@@ -60,7 +61,7 @@ def updateMinYears(event):
     max_year = max_year_var.get()
     if max_year:
         # Filter min years to be less than or equal to max_year
-        filtered_min_years = [year for year in Years if year <= int(max_year)]
+        filtered_min_years = [year for year in Years if int(year) <= int(max_year)]
         min_year_combobox['values'] = [''] + filtered_min_years
         # If current min_year is greater than max_year, reset it
         current_min = min_year_var.get()
@@ -100,7 +101,7 @@ def add_model_listbox(make):
     label.pack(side='top', anchor='w', padx=(0, 10), pady=(0, 5))
 
     # Listbox for Models with narrower width
-    listbox = tk.Listbox(frame, selectmode=tk.MULTIPLE, exportselection=False, height=4, width=20)
+    listbox = tk.Listbox(frame, selectmode=tk.MULTIPLE, exportselection=False, height=4)
     listbox.pack(side='left', fill='x', expand=True)
 
     # Scrollbar for the Model Listbox
@@ -134,30 +135,37 @@ def remove_model_listbox(make):
         t_parent_frame = t_listbox.master
         t_parent_frame.destroy()
     # After removing a Model Listbox, update Trims
-    updateTrims()
+    updateTrims(make)  # Pass the make to update only relevant trims
 
-def updateTrims(make):
+def updateTrims(make=None):
     """
     Updates Trims based on selected Models for a specific Make.
+    If no make is provided, updates Trims for all makes in model_listboxes.
     """
-    if make not in model_listboxes:
-        return
+    if make:
+        makes_to_update = [make]  # Update only the specified make
+    else:
+        makes_to_update = list(model_listboxes.keys())  # Update all makes
 
-    selected_models_indices = model_listboxes[make].curselection()
-    selected_models = [model_listboxes[make].get(i) for i in selected_models_indices]
-    current_models = set(trim_listboxes.get(make, {}).keys())
+    for make in makes_to_update:
+        if make not in model_listboxes:
+            continue
 
-    selected_models_set = set(selected_models)
-    models_to_add = selected_models_set - current_models
-    models_to_remove = current_models - selected_models_set
+        selected_models_indices = model_listboxes[make].curselection()
+        selected_models = [model_listboxes[make].get(i) for i in selected_models_indices]
+        current_models = set(trim_listboxes.get(make, {}).keys())
 
-    # Add Trim Listboxes for newly selected Models
-    for model in models_to_add:
-        add_trim_listbox(make, model)
+        selected_models_set = set(selected_models)
+        models_to_add = selected_models_set - current_models
+        models_to_remove = current_models - selected_models_set
 
-    # Remove Trim Listboxes for deselected Models
-    for model in models_to_remove:
-        remove_trim_listbox(make, model)
+        # Add Trim Listboxes for newly selected Models
+        for model in models_to_add:
+            add_trim_listbox(make, model)
+
+        # Remove Trim Listboxes for deselected Models
+        for model in models_to_remove:
+            remove_trim_listbox(make, model)
 
 def add_trim_listbox(make, model):
     """
@@ -182,7 +190,7 @@ def add_trim_listbox(make, model):
     label.pack(side='top', anchor='w', padx=(0, 10), pady=(0, 5))
 
     # Listbox for Trims with narrower width
-    listbox = tk.Listbox(frame, selectmode=tk.MULTIPLE, exportselection=False, height=4, width=20)
+    listbox = tk.Listbox(frame, selectmode=tk.MULTIPLE, exportselection=False, height=4)
     listbox.pack(side='left', fill='x', expand=True)
 
     # Scrollbar for the Trim Listbox
@@ -207,6 +215,42 @@ def remove_trim_listbox(make, model):
         # The Listbox is inside a Frame; destroy the parent Frame
         parent_frame = listbox.master
         parent_frame.destroy()
+
+def validate_min(event=None):
+    """Validate minimum price entry and update border color."""
+    try:
+        if min_entry.get() == None or min_entry.get() == '':
+            return
+        min_val = float(min_entry.get())
+        if max_entry.get() == None or max_entry.get() == '':
+            min_entry.config(highlightbackground="green", highlightcolor="green", highlightthickness=2)
+        else:
+            max_val = float(max_entry.get())
+            if min_val > max_val or max_val is None:
+                min_entry.config(highlightbackground="red", highlightcolor="red", highlightthickness=2)
+            else:
+                max_entry.config(highlightbackground="green", highlightcolor="green", highlightthickness=2)
+                min_entry.config(highlightbackground="green", highlightcolor="green", highlightthickness=2)
+    except ValueError:
+        min_entry.config(highlightbackground="red", highlightcolor="red", highlightthickness=2)
+
+def validate_max(event=None):
+    """Validate maximum price entry and update border color."""
+    try:
+        if max_entry.get() == None or max_entry.get() == '':
+            return
+        if min_entry.get() == None or min_entry.get() == '':
+            max_entry.config(highlightbackground="green", highlightcolor="green", highlightthickness=2)
+        else:
+            min_val = float(min_entry.get())
+            max_val = float(max_entry.get())
+            if max_val < min_val:
+                max_entry.config(highlightbackground="red", highlightcolor="red", highlightthickness=2)
+            else:
+                max_entry.config(highlightbackground="green", highlightcolor="green", highlightthickness=2)
+                min_entry.config(highlightbackground="green", highlightcolor="green", highlightthickness=2)
+    except ValueError:
+        max_entry.config(highlightbackground="red", highlightcolor="red", highlightthickness=2)
 
 def performSearch():
     selected_makes_indices = make_listbox.curselection()
@@ -271,6 +315,8 @@ mileage_var = tk.StringVar()
 fuel_var = tk.StringVar()
 min_year_var = tk.StringVar()
 max_year_var = tk.StringVar()
+min_price_var = tk.StringVar()
+max_price_var = tk.StringVar()
 
 # Create a main frame to hold selection_frame and options_frame side by side
 main_frame = ttk.Frame(root)
@@ -302,11 +348,11 @@ make_column_frame = ttk.Frame(selection_frame)
 make_column_frame.grid(row=0, column=0, sticky="nw")
 
 # Replace model_column_frame with a ScrollableFrame with specified narrower width
-model_scrollable_frame = ScrollableFrame(selection_frame, height=400, width=195)
+model_scrollable_frame = ScrollableFrame(selection_frame, height=400, width=175)
 model_scrollable_frame.grid(row=0, column=1, sticky="nw")
  
 # Replace trim_column_frame with a ScrollableFrame with specified narrower width
-trim_scrollable_frame = ScrollableFrame(selection_frame, height=400, width=195)
+trim_scrollable_frame = ScrollableFrame(selection_frame, height=400, width=175)
 trim_scrollable_frame.grid(row=0, column=2, sticky="nw")
 
 # Assign the inner frames to variables for easy access
@@ -322,7 +368,7 @@ make_label = tk.Label(make_column_frame, text="Make:")
 make_label.pack(anchor='w', padx=5, pady=(0, 5))
 
 # Make Listbox with narrower width
-make_listbox = tk.Listbox(make_column_frame, selectmode=tk.MULTIPLE, exportselection=False, width=25)
+make_listbox = tk.Listbox(make_column_frame, selectmode=tk.MULTIPLE, exportselection=False, width=15)
 make_listbox.pack(fill='both', expand=True, padx=5, pady=(0, 5))
 
 # Populate Make Listbox
@@ -408,9 +454,21 @@ max_year_combobox.grid(row=2, column=3, padx=10, pady=5, sticky="w")
 max_year_combobox.bind("<<ComboboxSelected>>", updateMinYears)
 max_year_combobox.set('')  # Clear the max year selection
 
+# Minimum price label and entry
+tk.Label(options_frame, text="Minimum Price:").grid(row=3, column=0, padx=10, pady=5, sticky="e")
+min_entry = tk.Entry(options_frame)
+min_entry.grid(row=3, column=1, padx=10, pady=5, sticky="e")
+min_entry.bind("<FocusOut>", lambda event: validate_min())
+
+# Maximum price label and entry
+tk.Label(options_frame, text="Maximum Price:").grid(row=3, column=2, padx=10, pady=5, sticky="w")
+max_entry = tk.Entry(options_frame)
+max_entry.grid(row=3, column=3, padx=10, pady=5, sticky="w")
+max_entry.bind("<FocusOut>", lambda event: validate_max())
+
 # Fourth row: Search button
 search_button = tk.Button(options_frame, text="Search", command=performSearch, width=20, bg='blue', fg='white')
-search_button.grid(row=3, column=0, columnspan=4, padx=10, pady=20)
+search_button.grid(row=4, column=0, columnspan=4, padx=10, pady=20)
 
 # Run the application
 root.mainloop()

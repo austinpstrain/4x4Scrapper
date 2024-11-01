@@ -36,9 +36,7 @@ def buildFilterURL(filters):
                 pdb.set_trace()
                 filterURL += '&trimCode=' + car_map[filters['Make']][filters['Model']][value]
                 print(filterURL)
-
-            pdb.set_trace()
-                
+               
             
     print(filterURL)
     return filterURL

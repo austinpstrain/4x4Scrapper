@@ -1,0 +1,7 @@
+# Ignore specific compiled Python file
+Models/AutoTrader/__pycache__/car_code_map.cpython-311.pyc
+
+# Ignore all __pycache__ directories
+__pycache__/
+
+*.pyc

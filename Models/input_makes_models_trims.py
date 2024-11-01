@@ -23,10 +23,15 @@ input_makes_models_trims = {
         "Gladiator": ["Sport", "Willys", "Overland", "Rubicon", "Mojave"]
     },
     "Chevrolet": {
-        "Silverado 1500": ["Work Truck", "Custom", "LT", "RST", "LTZ", "High Country"],
-        "Tahoe": ["LS", "LT", "RST", "Z71", "Premier", "High Country"],
+        "Silverado 1500": ["Custom Trail Boss", "W/T", "LS", "LT", "LT Trail Boss", "ZR2", "LTZ Z71", "LTZ", "High Country"],
         "Suburban": ["LS", "LT", "RST", "Z71", "Premier", "High Country"],
-        "Colorado": ["WT", "LT", "Z71", "ZR2"]
+        "Colorado": ["WT", "LT", "Z71", "ZR2"],
+        "Tahoe": ["LS", "LT", "RST", "Z71", "Premier", "High Country"],
+        "Blazer": ["LS", "LT", "RST", "Z71", "Premier", "High Country"],
+        "S10 Pickup": ["LS", "LT", "RST", "Z71", "Premier", "High Country"],
+        "Avalanche": ["LS", "LT", "RST", "Z71", "Premier", "High Country"],
+        "TrailBlazer": ["LS", "LT", "RST", "Z71", "Premier", "High Country"],
+        "C/K Truck": ["LS", "LT", "RST", "Z71", "Premier", "High Country"],
     },
     "Gmc": {
         "Canyon": ["Elevation", "AT4", "Denali"],

@@ -6,9 +6,12 @@ input_makes_models_trims = {
         "Maverick": ["Tremor"]
     },
     "Nissan": {
-        "Titan": ["S", "SV", "Pro-4x", "Platinum Reserve"],
-        "Frontier": ["S", "SV", "Pro-4x"],
-        "Xterra": ["X", "S", "SE", "Pro-4x"]
+        "Armada": ["SE Off-Road"],
+        "Frontier": ["Desert Runner", "Pro-4x"],
+        "Pathfinder": ["SE Off-Road"],
+        "Pickup": [],
+        "Titan": ["XD Pro-4x", "Pro-4x", "Platinum Reserve"],
+        "Xterra": ["Off-Road", "Pro-4x"]
     },
     "Toyota": {
         "Tundra": ["SR", "SR5", "Limited", "Platinum", "1794 Edition", "TRD Pro"],
@@ -22,7 +25,7 @@ input_makes_models_trims = {
         "Grand Cherokee": ["Laredo", "Altitude", "Limited", "Overland", "Summit", "Trailhawk"],
         "Gladiator": ["Sport", "Willys", "Overland", "Rubicon", "Mojave"]
     },
-    "Chevrolet": {
+    "Chevorlet": {
         "Silverado 1500": ["Custom Trail Boss", "W/T", "LS", "LT", "LT Trail Boss", "ZR2", "LTZ Z71", "LTZ", "High Country"],
         "Suburban": ["LS", "LT", "RST", "Z71", "Premier", "High Country"],
         "Colorado": ["WT", "LT", "Z71", "ZR2"],

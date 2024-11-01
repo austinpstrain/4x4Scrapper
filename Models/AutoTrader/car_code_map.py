@@ -66,5 +66,35 @@ car_map = {
             'ls': 'SILVERA%7CLS&'
         }  
     },
-    # Add more brands as needed
+    'Nissan': {
+        'code': 'NISSAN',
+        'Armada': {
+            'code': 'PATHARMADA',
+            'SE Off-Road': 'PATHARMADA%7CSE%20Off-Road',
+        },
+        'Frontier': {
+            'code': 'FRONTI',
+            'Desert Runner': 'FRONTI%7CDesert%20Runner',
+            'Pro-4x': 'FRONTI%7CPRO-4X',
+            'Pro-x': 'FRONTI%7CPro-X',
+        },
+        'Pathfinder': {
+            'code': 'PATH',
+            'SE Off-Road': 'PATHARMADA%7CSE%20Off-Road',
+        },
+        'Pickup': {
+            'code': 'NISPU',
+        },
+        'Titan': {
+            'code': 'TITAN',
+            'XD Pro-4x': 'TITAN%7CXD%20PRO-4X',
+            'Pro-4x': 'TITAN%7CPRO-4X',
+            'Platinum Reserve': 'TITAN%7CPlatinum%20Reserve',
+        },
+        'Xterra': {
+            'code': 'XTERRA',
+            'Off-Road': 'XTERRA%7COff-Road',
+            'Pro-4x': 'XTERRA%7CPRO-4X',
+        },
+    },
 }

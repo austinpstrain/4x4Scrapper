@@ -252,6 +252,25 @@ def validate_max(event=None):
     except ValueError:
         max_entry.config(highlightbackground="red", highlightcolor="red", highlightthickness=2)
 
+def clearForm():
+    # Clear selections after search
+    make_listbox.selection_clear(0, tk.END)
+    # Remove all Model Listboxes
+    for make in list(model_listboxes.keys()):
+        remove_model_listbox(make)
+    # Remove all Trim Listboxes
+    for make in list(trim_listboxes.keys()):
+        for model in list(trim_listboxes[make].keys()):
+            remove_trim_listbox(make, model)
+    # Clear other selections
+    trim_listboxes.clear()
+    radius_var.set('')
+    zipcode_entry.delete(0, tk.END)
+    mileage_var.set('')
+    fuel_var.set('')
+    min_year_var.set('')
+    max_year_var.set('')
+
 def performSearch():
     selected_makes_indices = make_listbox.curselection()
     selected_makes = [make_listbox.get(i) for i in selected_makes_indices]
@@ -274,8 +293,16 @@ def performSearch():
 
     selection = {
         "Makes": selected_makes,
-        "Models": selected_models,  # {make: [models]}
-        "Trims": selected_trims,    # {make: {model: [trims]}
+        "Models":  {brand: cars for brand, cars in selected_models.items() if cars},  # {make: [models]}
+        "Trims": {
+            brand: {
+                model: trims_list
+                for model, trims_list in models.items()
+                if trims_list  # This ensures trims_list is not empty
+            }
+            for brand, models in selected_trims.items()
+            if any(trims_list for trims_list in models.values())  # Ensures at least one model remains
+        },
         "Radius": radius_var.get(),
         "Zipcode": zipcode_entry.get(),
         "Mileage": mileage_var.get(),
@@ -283,25 +310,7 @@ def performSearch():
         "MinYear": min_year_var.get(),
         "MaxYear": max_year_var.get(),
     }
-
-    # Clear selections after search
-    make_listbox.selection_clear(0, tk.END)
-    # Remove all Model Listboxes
-    for make in list(model_listboxes.keys()):
-        remove_model_listbox(make)
-    # Remove all Trim Listboxes
-    for make in list(trim_listboxes.keys()):
-        for model in list(trim_listboxes[make].keys()):
-            remove_trim_listbox(make, model)
-    # Clear other selections
-    trim_listboxes.clear()
-    radius_var.set('')
-    zipcode_entry.delete(0, tk.END)
-    mileage_var.set('')
-    fuel_var.set('')
-    min_year_var.set('')
-    max_year_var.set('')
-
+    #clearForm()
     scrapeAutoTrader(selection)
 
 # Create the main application window

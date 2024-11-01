@@ -1,7 +1,7 @@
 import pdb 
 from Models.AutoTrader.car_code_map import car_map
 
-def buildFilterURL(filters):
+def buildURL(filters):
     print(filters)
     filterURL = ''
     
@@ -25,16 +25,20 @@ def buildFilterURL(filters):
                 filterURL += '&startYear=' + value
             elif key == 'MaxYear':
                 filterURL += '&endYear=' + value
-            elif key == 'Make':
-                filterURL += '&makeCode=' + car_map[value]['code']
+            elif key == 'Makes':
+                for i in range(len(value)):
+                    print(value[i])
+                    filterURL += '&makeCode=' + car_map[value[i]]['code']
+            elif key == 'Models':
+                for make, models in value.items():
+                    for model in models:
+                        filterURL += '&modelCode=' + car_map[make][model]['code']
                 print(filterURL)
-            elif key == 'Model':
-                pdb.set_trace()
-                filterURL += '&modelCode=' + car_map[filters['Make']][value]['code']
-                print(filterURL)
-            elif key == 'Trim':
-                pdb.set_trace()
-                filterURL += '&trimCode=' + car_map[filters['Make']][filters['Model']][value]
+            elif key == 'Trims':
+                for make, models in value.items():
+                    for model, trims in models.items():
+                        for trim in trims:
+                            filterURL += '&trimCode=' + car_map[make][model][trim]
                 print(filterURL)
                
             
@@ -44,7 +48,7 @@ def buildFilterURL(filters):
 def scrapeAutoTrader(filters):
     # Etner file here
     BASE_URL = 'https://www.autotrader.com/cars-for-sale/all-cars?newSearch=true&driveGroup=AWD4WD&vehicleStyleCode=SUVCROSS&vehicleStyleCode=TRUCKS'
-    scrapingURL = BASE_URL + buildFilterURL(filters)
+    scrapingURL = BASE_URL + buildURL(filters)
     print(scrapingURL)
 
     

@@ -1,5 +1,10 @@
 import pdb 
 from Models.AutoTrader.car_code_map import car_map
+import requests
+from bs4 import BeautifulSoup
+import time
+import random
+
 
 priceFilter = ''
 
@@ -51,9 +56,8 @@ def buildURL(filters):
     return filterURL
 
 def buildPriceURL(filters):
-    pdb.set_trace()
     if filters["MinPrice"] == '' and filters["MaxPrice"] == '' :
-        return ''
+        return '/all-cars'
     if filters["MinPrice"] != '' and filters["MaxPrice"] != '':
         return ("/cars-between-" + filters['MinPrice'] + "-and-" + filters['MaxPrice'])
     elif filters["MaxPrice"] != '':
@@ -61,10 +65,45 @@ def buildPriceURL(filters):
     elif filters["MinPrice"] != '':
         return ("/cars-over-" + filters['MinPrice'])
 
+def scrapeSearchURL(searchURL):   
+    user_agents = [
+        'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko)'
+        ' Chrome/112.0.0.0 Safari/537.36',
+        'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko)'
+        ' Version/14.0.3 Safari/605.1.15',
+    ]
+    headers = {
+        'User-Agent': random.choice(user_agents),
+        'Accept-Language': 'en-US,en;q=0.9',
+        'Accept-Encoding': 'gzip, deflate, br',
+        'Connection': 'keep-alive',
+        'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
+    }
+    session = requests.Session()
+    response = session.get(searchURL, headers=headers, timeout=10)
+    if response.status_code != 200:
+        print(f"Failed to retrieve the webpage. Status code: {response.status_code}")
+        return None
+    
+    soup = BeautifulSoup(response.content, 'html.parser')
+    results = soup.find(id='srp-listings')
+    results2 = soup.find("div",class_="col-xs-12 col-md-9")
+
+    with open("scrape.html", "w", encoding="utf-8") as file:
+        file.write(soup.prettify())
+    pdb.set_trace()
+    listings = results.find_all("div", class_="inventory-listing-body")
+    print(listings)
+
+
+    #print(soup.prettify()) 
+        
+
 def scrapeAutoTrader(filters):
     # Etner file here
     BASE_URL = f'https://www.autotrader.com/cars-for-sale{buildPriceURL(filters)}?newSearch=true&driveGroup=AWD4WD&vehicleStyleCode=SUVCROSS&vehicleStyleCode=TRUCKS'
     searchURL = BASE_URL + buildURL(filters)
     print(searchURL)
+    vehicleListURL = scrapeSearchURL(searchURL)
 
     

@@ -130,3 +130,13 @@ modelCode=PATHARMADA
 &trimCode=TITAN%7CPRO-4X
 &trimCode=TITAN%7CXD%20PRO-4X
 &trimCode=TITAN%7CPlatinum%20Reserve
+
+
+
+
+cars-between-12000-and-25000
+cars-under-25000
+cars-over-16000
+
+
+<div class="inventory-listing-body padding-3" role="link" tabindex="0"><div><div class="display-flex justify-content-between"><a data-cmp="link" rel="nofollow" data-next-link="true" href="/cars-for-sale/vehicle/729075479?bodyStyleSubtypeCode=FULLSIZE_REG%2BCOMPACT_REG&amp;city=Houston&amp;driveGroup=AWD4WD&amp;listingType=USED&amp;mileage=75000&amp;newSearch=false&amp;referrer=%2Fcars-for-sale%2Ftruck%2Fawd-4wd%2F8-cylinder%2Fhouston-tx%3FbodyStyleSubtypeCodes%3DFULLSIZE_REG%252BCOMPACT_REG%26incremental%3Dlast_searched-1727409337000%26maxMileage%3D75000%26searchRadius%3D0%26sortBy%3DderivedpriceASC%26vhrTypes%3DNO_ACCIDENTS%26searchBookmarkId%3D01J8RSXDASJ6CN8RJN815JD31J&amp;searchRadius=0&amp;sortBy=derivedpriceASC&amp;state=TX&amp;vehicleHistoryType=NO_ACCIDENTS&amp;vehicleStyleCode=TRUCKS&amp;clickType=listing"><h3 data-cmp="subheading" class="text-bold text-size-400 link-unstyled">Used 2008 Dodge Ram 1500 Truck ST</h3></a></div><div class="text-bold text-subdued-lighter margin-top-3" data-cmp="mileageSpecification">69,383 miles</div><ul data-cmp="dynamicSpecificationsList" class="list list-inline display-inline-block margin-bottom-0 margin-top-2 text-size-200"><li class="display-inline-flex align-items-center">Fullsize Regular Cab Truck</li><li class="display-inline-flex align-items-center">8' Bed Length</li></ul><div class="display-flex flex-wrap margin-vertical-1"></div><div data-cmp="pricing" class="price-version-2 align-items-end display-flex flex-wrap"><div class="text-size-600 text-ultra-bold first-price" data-cmp="firstPrice">9,995</div><div class="display-flex flex-nowrap align-self-center margin-left-2" data-cmp="KBBDealIndicator"><img alt="KBB.com Price Advisor" height="24" width="18" src="https://www.autotrader.com/content/dam/autotrader/additionalresources/kbb_logo.svg" loading="lazy" style="right: 17px;"><span class="padding-left-1 padding-top-1 text-bold text-size-200 text-success" role="heading" aria-level="2">GREAT PRICE</span></div></div><div style="" class="display-flex"><span class="price-version-2 text-link text-size-200 display-flex align-items-center pull-left" role="link" tabindex="0" data-cmp="lnk-pymt-dtls"><span class="text-gray-base text-ultra-bold text-size-300"><span class="text-valign-super text-size-100">$</span>197</span><span class="text-gray-base text-size-300">/mo.</span><span class="text-link text-size-200 margin-left-1 display-block">See Finance Details</span></span></div></div></div>

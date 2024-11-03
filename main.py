@@ -290,7 +290,6 @@ def performSearch():
             if trim_listbox:
                 selected_indices = trim_listbox.curselection()
                 selected_trims[make][model] = [trim_listbox.get(i) for i in selected_indices]
-
     selection = {
         "Makes": selected_makes,
         "Models":  {brand: cars for brand, cars in selected_models.items() if cars},  # {make: [models]}
@@ -309,6 +308,8 @@ def performSearch():
         "Fuel": fuel_var.get(),
         "MinYear": min_year_var.get(),
         "MaxYear": max_year_var.get(),
+        "MinPrice": min_entry.get(),
+        "MaxPrice": max_entry.get(),
     }
     #clearForm()
     scrapeAutoTrader(selection)
@@ -324,8 +325,6 @@ mileage_var = tk.StringVar()
 fuel_var = tk.StringVar()
 min_year_var = tk.StringVar()
 max_year_var = tk.StringVar()
-min_price_var = tk.StringVar()
-max_price_var = tk.StringVar()
 
 # Create a main frame to hold selection_frame and options_frame side by side
 main_frame = ttk.Frame(root)
